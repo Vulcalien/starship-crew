@@ -19,7 +19,7 @@ CFLAGS   := -Wall -pedantic
 
 # Unix LDFLAGS and LDLIBS
 UNI_LDFLAGS := -Llib
-UNI_LDLIBS  :=
+UNI_LDLIBS  := -lcliscreen
 
 # Windows LDFLAGS and LDLIBS
 WIN_LDFLAGS := -Llib
