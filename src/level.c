@@ -13,11 +13,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#include "starship.h"
+#include "level.h"
 
-#include <stdio.h>
+static u32 ship_count = 0;
+static struct starship *ships = NULL;
 
-int main(int argc, const char *argv[]) {
-    printf("Hello world");
-    return 0;
+void tick(void) {
+    for(u32 i = 0; i < ship_count; i++) {
+        struct starship ship = ships[i];
+
+        // movement
+        ship.location.x += ship.speed * cos(ship.location.angle);
+        ship.location.y += ship.speed * sin(ship.location.angle);
+    }
 }

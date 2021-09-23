@@ -1,5 +1,5 @@
 # Vulcalien's Executable Makefile
-# version 0.1.2
+# version 0.1.2 (modified)
 #
 # Supported systems:
 # - Linux
@@ -19,7 +19,7 @@ CFLAGS   := -Wall -pedantic
 
 # Unix LDFLAGS and LDLIBS
 UNI_LDFLAGS := -Llib
-UNI_LDLIBS  := -lcliscreen
+UNI_LDLIBS  := -lm -lpthread
 
 # Windows LDFLAGS and LDLIBS
 WIN_LDFLAGS := -Llib
@@ -70,7 +70,7 @@ OUT := $(BIN_DIR)/$(OUT_FILENAME)$(OUT_EXT)
 all: build run
 
 run:
-	./$(OUT)
+	./$(OUT) $(ARGS)
 
 build: $(OUT)
 
