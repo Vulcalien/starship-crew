@@ -18,10 +18,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <pthread.h>
+
+#include "client_io.h"
 
 int main(int argc, const char *argv[]) {
     u16 port = 0;
@@ -66,21 +67,9 @@ int main(int argc, const char *argv[]) {
     if(listen(server_socket, 16))
         fputs("Error: cannot listen\n", stderr);
 
-    // accept and handle incoming requests
-    while(true) {
-        struct sockaddr_in client_addr;
-        socklen_t socket_len = sizeof(struct sockaddr_in);
+    // accept clients
+    while(true)
+        client_accept(server_socket);
 
-        int client_socket = accept(
-            server_socket, (struct sockaddr *) &client_addr,
-            &socket_len
-        );
-
-        // TODO handle connection
-
-        // DEBUG
-        send(client_socket, "HW", 2, 0);
-        close(client_socket);
-    }
     return 0;
 }
