@@ -44,8 +44,9 @@ static void *client_thread(void *client_socket_ptr) {
     int client_socket = *((int *) client_socket_ptr);
     free(client_socket_ptr);
 
-    if(!handshake(client_socket))
-        player_async(client_socket);
+    if(!handshake(client_socket)) {
+
+    }
 
     close(client_socket);
     return NULL;

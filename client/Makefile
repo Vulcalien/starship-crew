@@ -14,7 +14,7 @@ SRC_DIR := src
 OBJ_DIR := obj
 BIN_DIR := bin
 
-CPPFLAGS := -Iinclude -Iinclude/lib -MMD -MP
+CPPFLAGS := -Iinclude -Iinclude/lib -I../common/include -MMD -MP
 CFLAGS   := -Wall -pedantic
 
 # Unix LDFLAGS and LDLIBS

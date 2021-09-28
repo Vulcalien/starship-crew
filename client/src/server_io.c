@@ -58,7 +58,5 @@ int server_connect(void) {
         return -1;
     }
 
-    // TODO ...
-
     return 0;
 }

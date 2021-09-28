@@ -13,6 +13,29 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#include "player.h"
+#include "player_screen.h"
 
-#include <unistd.h>
+#include "vulcalien/screen.h"
+
+#include "level.h"
+
+void player_screen_init(void) {
+    screen_terminal_prepare();
+
+    screen_create();
+    screen_setsize(80, 24);
+}
+
+void player_screen_destroy(void) {
+    screen_destroy();
+
+    screen_terminal_reset();
+}
+
+void player_screen_render(void) {
+    screen_clear(' ', NULL);
+
+    level_render();
+
+    screen_render();
+}

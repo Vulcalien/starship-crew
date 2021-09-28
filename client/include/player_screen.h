@@ -13,6 +13,13 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#include "player.h"
+#ifndef VULC_STARSHIP_CLIENT_SCREEN
+#define VULC_STARSHIP_CLIENT_SCREEN
 
-#include <unistd.h>
+#include "client.h"
+
+extern void player_screen_init(void);
+extern void player_screen_destroy(void);
+extern void player_screen_render(void);
+
+#endif // VULC_STARSHIP_CLIENT_SCREEN

@@ -13,6 +13,25 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#include "player.h"
+#ifndef VULC_STARSHIP_COMMON_PLAYER_TYPES
+#define VULC_STARSHIP_COMMON_PLAYER_TYPES
 
-#include <unistd.h>
+#include <math.h>
+
+#define ROTATION_UNIT (M_PI / 4 / 8)
+
+struct location {
+    double x;
+    double y;
+
+    float angle;
+};
+
+struct starship {
+    struct location location;
+
+    float speed;
+    // TODO energy, fuel (?), shield level...
+};
+
+#endif // VULC_STARSHIP_COMMON_PLAYER_TYPES

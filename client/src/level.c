@@ -15,6 +15,10 @@
  */
 #include "level.h"
 
+#include "vulcalien/screen.h"
+
+#include "common/player_types.h"
+
 static u32 ship_count = 0;
 static u32 ship_array_size = 0;
 static struct starship *ships = NULL;
@@ -31,5 +35,16 @@ void level_tick(void) {
         // movement
         ship.location.x += ship.speed * cos(ship.location.angle);
         ship.location.y += ship.speed * sin(ship.location.angle);
+    }
+}
+
+void level_render(void) {
+    for(u32 i = 0; i < ship_count; i++) {
+        struct starship ship = ships[i];
+
+        screen_setchar(
+            ship.location.x, ship.location.y,
+            '#', NULL
+        );
     }
 }

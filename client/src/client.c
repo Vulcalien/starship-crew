@@ -18,7 +18,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "level.h"
 #include "server_io.h"
+#include "player_screen.h"
+
+// DEBUG
+#include <time.h>
 
 static void print_usage(const char *executable_name) {
     printf("Usage: %s ROLE STARSHIP_ID\n", executable_name);
@@ -42,6 +47,20 @@ int main(int argc, const char *argv[]) {
     // connect to server
     if(server_connect())
         return -1;
+
+    level_init();
+    player_screen_init();
+
+    // TODO replace this with a proper gameloop
+    while(true) {
+        level_tick();
+        player_screen_render();
+
+        struct timespec time = {
+            .tv_sec = 0, .tv_nsec = 20000000
+        };
+        nanosleep(&time, NULL);
+    }
 
     return 0;
 }

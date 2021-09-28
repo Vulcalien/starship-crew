@@ -18,24 +18,9 @@
 
 #include "server.h"
 
-#include <math.h>
+#include "common/player_types.h"
 
-#define ROTATION_UNIT (M_PI / 4 / 8)
-
-struct location {
-    double x;
-    double y;
-
-    float angle;
-};
-
-struct starship {
-    struct location location;
-
-    float speed;
-    // TODO energy, fuel (?), shield level...
-};
-
-extern void tick(void);
+extern void level_init(void);
+extern void level_tick(void);
 
 #endif // VULC_STARSHIP_LEVEL
