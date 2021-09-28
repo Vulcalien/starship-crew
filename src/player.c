@@ -13,11 +13,11 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef VULC_STARSHIP_CLIENT_SERVER_IO
-#define VULC_STARSHIP_CLIENT_SERVER_IO
+#include "player.h"
 
-#include "client.h"
+#include <unistd.h>
 
-extern int server_connect(void);
-
-#endif // VULC_STARSHIP_CLIENT_SERVER_IO
+void player_async(int client_socket) {
+    int starship_id;
+    read(client_socket, &starship_id, sizeof(int));
+}

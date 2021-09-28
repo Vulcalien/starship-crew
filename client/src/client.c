@@ -31,8 +31,8 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    const char *role = argv[1];
-    if(!strcmp(role, "captain")) {
+    const char *role_str = argv[1];
+    if(!strcmp(role_str, "captain")) {
         // TODO ...
     } // else if.....
     // ...
@@ -40,6 +40,8 @@ int main(int argc, const char *argv[]) {
     int starship_id = atoi(argv[2]);
 
     // connect to server
-    if(server_connect(starship_id))
+    if(server_connect())
         return -1;
+
+    return 0;
 }

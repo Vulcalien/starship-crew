@@ -27,13 +27,15 @@
 
 static int client_socket;
 
-static int handshake(int starship_id) {
+static int handshake(void) {
     u64 number = MAGIC_NUMBER;
     write(client_socket, &number, sizeof(u64));
+
+    // TODO check the response
     return 0;
 }
 
-int server_connect(int starship_id) {
+int server_connect(void) {
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     // TODO get the server address from somewhere
@@ -51,7 +53,7 @@ int server_connect(int starship_id) {
         return -1;
     }
 
-    if(handshake(starship_id)) {
+    if(handshake()) {
         close(client_socket);
         return -1;
     }

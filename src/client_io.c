@@ -18,8 +18,11 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <pthread.h>
 
-#define WRITE(fd, string) write(fd, string, sizeof(string))
+#include "player.h"
+
+#define WRITE(fd, const_string) write(fd, const_string, sizeof(const_string))
 
 #define MAGIC_NUMBER ((u64) 0x6a24d479)
 
@@ -37,22 +40,30 @@ static int handshake(int client_socket) {
     return 0;
 }
 
+static void *client_thread(void *client_socket_ptr) {
+    int client_socket = *((int *) client_socket_ptr);
+    free(client_socket_ptr);
+
+    if(!handshake(client_socket))
+        player_async(client_socket);
+
+    close(client_socket);
+    return NULL;
+}
+
 void client_accept(int server_socket) {
     struct sockaddr_in client_addr;
     socklen_t socket_len = sizeof(struct sockaddr_in);
 
-    int client_socket = accept(
+    int *client_socket = malloc(sizeof(int));
+    *client_socket = accept(
         server_socket, (struct sockaddr *) &client_addr,
         &socket_len
     );
 
-    // TODO transfer control to another thread
-    // because handshake could block execution
+    // this value will be deallocated
+    // soon after creating the thread
+    pthread_t thread;
 
-    if(handshake(client_socket)) {
-        close(client_socket);
-        return;
-    }
-
-    // TODO ...
+    pthread_create(&thread, NULL, client_thread, client_socket);
 }
