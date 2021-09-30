@@ -23,4 +23,6 @@
 extern void level_init(void);
 extern void level_tick(void);
 
+extern void level_send_init_data(int client_socket);
+
 #endif // VULC_STARSHIP_LEVEL

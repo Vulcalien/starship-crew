@@ -20,4 +20,6 @@
 
 #include "vulcalien/vulcalien.h"
 
+#define GAME_TPS (30)
+
 #endif // VULC_STARSHIP_CORE

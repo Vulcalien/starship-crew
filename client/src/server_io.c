@@ -25,7 +25,7 @@
 
 #define MAGIC_NUMBER ((u64) 0x6a24d479)
 
-static int client_socket;
+int client_socket;
 
 static int handshake(void) {
     u64 number = MAGIC_NUMBER;

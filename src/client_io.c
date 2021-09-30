@@ -21,6 +21,7 @@
 #include <pthread.h>
 
 #include "player.h"
+#include "level.h"
 
 #define WRITE(fd, const_string) write(fd, const_string, sizeof(const_string))
 
@@ -31,10 +32,10 @@ static int handshake(int client_socket) {
     read(client_socket, &read_number, sizeof(u64));
 
     if(read_number != MAGIC_NUMBER) {
-        WRITE(client_socket, "Wrong magic number");
+        /*WRITE(client_socket, "Wrong magic number");*/
         return -1;
     } else {
-        WRITE(client_socket, "OK");
+        /*WRITE(client_socket, "OK");*/
     }
 
     return 0;
@@ -45,7 +46,7 @@ static void *client_thread(void *client_socket_ptr) {
     free(client_socket_ptr);
 
     if(!handshake(client_socket)) {
-
+        level_send_init_data(client_socket);
     }
 
     close(client_socket);

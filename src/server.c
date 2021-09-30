@@ -23,6 +23,32 @@
 #include <pthread.h>
 
 #include "client_io.h"
+#include "level.h"
+
+static int open_server(u16 port) {
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+    struct sockaddr_in server_addr = {
+        .sin_addr.s_addr = INADDR_ANY,
+        .sin_family = AF_INET,
+        .sin_port = htons(port)
+    };
+
+    if(bind(
+        server_socket, (struct sockaddr *) &server_addr,
+        sizeof(struct sockaddr_in)
+    )) {
+        fputs("Error: cannot bind\n", stderr);
+        return -1;
+    }
+
+    if(listen(server_socket, 16)) {
+        fputs("Error: cannot listen\n", stderr);
+        return -1;
+    }
+
+    return server_socket;
+}
 
 int main(int argc, const char *argv[]) {
     u16 port = 0;
@@ -47,25 +73,9 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    // open the server
-    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    int server_socket = open_server(port);
 
-    struct sockaddr_in server_addr = {
-        .sin_addr.s_addr = INADDR_ANY,
-        .sin_family = AF_INET,
-        .sin_port = htons(port)
-    };
-
-    if(bind(
-        server_socket, (struct sockaddr *) &server_addr,
-        sizeof(struct sockaddr_in)
-    )) {
-        fputs("Error: cannot bind\n", stderr);
-        return -1;
-    }
-
-    if(listen(server_socket, 16))
-        fputs("Error: cannot listen\n", stderr);
+    level_init();
 
     // accept clients
     while(true)

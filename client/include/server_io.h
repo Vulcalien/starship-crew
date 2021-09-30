@@ -18,6 +18,8 @@
 
 #include "client.h"
 
+extern int client_socket;
+
 extern int server_connect(void);
 
 #endif // VULC_STARSHIP_CLIENT_SERVER_IO
