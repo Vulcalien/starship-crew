@@ -17,16 +17,18 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <pthread.h>
 
-#include "client_io.h"
+#include "gameloop.h"
 #include "level.h"
+#include "client_io.h"
 
-static int open_server(u16 port) {
-    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+static int open_server(u16 port, int *server_socket) {
+    *server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
     struct sockaddr_in server_addr = {
         .sin_addr.s_addr = INADDR_ANY,
@@ -35,19 +37,18 @@ static int open_server(u16 port) {
     };
 
     if(bind(
-        server_socket, (struct sockaddr *) &server_addr,
+        *server_socket, (struct sockaddr *) &server_addr,
         sizeof(struct sockaddr_in)
     )) {
         fputs("Error: cannot bind\n", stderr);
         return -1;
     }
 
-    if(listen(server_socket, 16)) {
+    if(listen(*server_socket, 16)) {
         fputs("Error: cannot listen\n", stderr);
         return -1;
     }
-
-    return server_socket;
+    return 0;
 }
 
 int main(int argc, const char *argv[]) {
@@ -73,13 +74,24 @@ int main(int argc, const char *argv[]) {
         return -1;
     }
 
-    int server_socket = open_server(port);
+    int server_socket;
+    if(open_server(port, &server_socket))
+        return -1;
 
     level_init();
+
+    pthread_t gameloop_thread;
+    pthread_create(&gameloop_thread, NULL, gameloop, NULL);
 
     // accept clients
     while(true)
         client_accept(server_socket);
 
     return 0;
+}
+
+u64 nanotime(void) {
+    struct timespec time;
+    clock_gettime(CLOCK_MONOTONIC, &time);
+    return time.tv_sec * (1000 * 1000 * 1000) + time.tv_nsec;
 }

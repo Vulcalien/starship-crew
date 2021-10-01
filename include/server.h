@@ -22,4 +22,6 @@
 
 #define GAME_TPS (30)
 
+extern u64 nanotime(void);
+
 #endif // VULC_STARSHIP_CORE

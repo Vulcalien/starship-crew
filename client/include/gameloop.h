@@ -13,15 +13,13 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef VULC_STARSHIP_CLIENT_CORE
-#define VULC_STARSHIP_CLIENT_CORE
+#ifndef VULC_STARSHIP_CLIENT_GAMELOOP
+#define VULC_STARSHIP_CLIENT_GAMELOOP
 
-#include <stdlib.h>
+#include "client.h"
 
-#include "vulcalien/vulcalien.h"
+extern bool gameloop_running;
 
-#define GAME_TPS (30)
+extern void gameloop(void);
 
-extern u64 nanotime(void);
-
-#endif // VULC_STARSHIP_CLIENT_CORE
+#endif // VULC_STARSHIP_CLIENT_GAMELOOP

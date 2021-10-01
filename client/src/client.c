@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "gameloop.h"
 #include "level.h"
 #include "server_io.h"
 #include "player_screen.h"
@@ -51,16 +52,13 @@ int main(int argc, const char *argv[]) {
     level_init();
     player_screen_init();
 
-    // TODO replace this with a proper gameloop
-    while(true) {
-        level_tick();
-        player_screen_render();
-
-        struct timespec time = {
-            .tv_sec = 0, .tv_nsec = 20000000
-        };
-        nanosleep(&time, NULL);
-    }
+    gameloop();
 
     return 0;
+}
+
+u64 nanotime(void) {
+    struct timespec time;
+    clock_gettime(CLOCK_MONOTONIC, &time);
+    return time.tv_sec * (1000 * 1000 * 1000) + time.tv_nsec;
 }
