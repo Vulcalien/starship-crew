@@ -23,20 +23,14 @@
 #include "player.h"
 #include "level.h"
 
-#define WRITE(fd, const_string) write(fd, const_string, sizeof(const_string))
-
 #define MAGIC_NUMBER ((u64) 0x6a24d479)
 
 static int handshake(int client_socket) {
     u64 read_number;
     read(client_socket, &read_number, sizeof(u64));
 
-    if(read_number != MAGIC_NUMBER) {
-        /*WRITE(client_socket, "Wrong magic number");*/
+    if(read_number != MAGIC_NUMBER)
         return -1;
-    } else {
-        /*WRITE(client_socket, "OK");*/
-    }
 
     return 0;
 }
@@ -46,6 +40,7 @@ static void *client_thread(void *client_socket_ptr) {
     free(client_socket_ptr);
 
     if(!handshake(client_socket)) {
+        level_add_ship();
         level_send_init_data(client_socket);
     }
 

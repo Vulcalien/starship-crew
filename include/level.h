@@ -18,11 +18,20 @@
 
 #include "server.h"
 
+#include <pthread.h>
+
 #include "common/player_types.h"
 
+// TODO consider making this static
+// don't forget to remove "#include <pthread.h>"
+extern pthread_mutex_t level_mutex;
+
 extern void level_init(void);
+extern void level_destroy(void);
+
 extern void level_tick(void);
 
+extern void level_add_ship(void);
 extern void level_send_init_data(int client_socket);
 
 #endif // VULC_STARSHIP_LEVEL

@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <signal.h>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -26,6 +27,14 @@
 #include "gameloop.h"
 #include "level.h"
 #include "client_io.h"
+
+static void on_interrupt(int arg) {
+    puts("Shutting the server\n");
+
+    // TODO destroy everything
+
+    exit(0);
+}
 
 static int open_server(u16 port, int *server_socket) {
     *server_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -52,6 +61,8 @@ static int open_server(u16 port, int *server_socket) {
 }
 
 int main(int argc, const char *argv[]) {
+    signal(SIGINT, on_interrupt);
+
     u16 port = 0;
 
     // parse arguments

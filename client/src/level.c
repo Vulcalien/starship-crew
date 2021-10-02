@@ -34,7 +34,7 @@ void level_init(void) {
     else
         ship_array_size = ship_count + (8 - ship_count % 8);
 
-    ships = malloc(sizeof(struct starship) * ship_array_size);
+    ships = malloc(ship_array_size * sizeof(struct starship));
     read(client_socket, ships, ship_count * sizeof(struct starship));
 }
 
