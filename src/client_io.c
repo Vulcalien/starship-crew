@@ -22,6 +22,7 @@
 
 #include "player.h"
 #include "level.h"
+#include "message.h"
 
 #define MAGIC_NUMBER ((u64) 0x6a24d479)
 
@@ -40,6 +41,8 @@ static void *client_thread(void *client_socket_ptr) {
     free(client_socket_ptr);
 
     if(!handshake(client_socket)) {
+        message_add_socket(client_socket);
+
         level_add_ship();
         level_send_init_data(client_socket);
     }

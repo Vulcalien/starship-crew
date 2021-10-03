@@ -30,11 +30,14 @@ void level_init(void) {
 }
 
 void level_destroy(void) {
+    // FIXME the mutex is statically allocated,
+    // is this really necessary?
     pthread_mutex_destroy(&level_mutex);
 }
 
 void level_tick(void) {
     pthread_mutex_lock(&level_mutex);
+
     for(u32 i = 0; i < ship_count; i++) {
         struct starship *ship = &ships[i];
 
@@ -44,6 +47,7 @@ void level_tick(void) {
         ship->location.y += (ship->speed / GAME_TPS)
                             * sin(ship->location.angle);
     }
+
     pthread_mutex_unlock(&level_mutex);
 }
 
